@@ -17,7 +17,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SiuntuSavitarnaApplication {
 
     public static void main(String[] args) {
-        System.out.println("starting");
         SpringApplication.run(SiuntuSavitarnaApplication.class, args);
     }
 

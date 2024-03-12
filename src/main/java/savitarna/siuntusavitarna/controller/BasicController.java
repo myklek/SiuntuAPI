@@ -26,18 +26,12 @@ public class BasicController {
 	@Autowired
 	private PersonService personService;
 
-
 	@RequestMapping("/all")
 	public List<Persons> getAll() {
-
-		System.out.println("getAll");
-		System.out.println(personService.findAll());
 		return personService.findAll();
 	}
 	@GetMapping("/test")
 	public String getTest() {
-
-		System.out.println("Test After Cahnging Code");
-		return "Test V4";
+		return "Test V5";
 	}
 }

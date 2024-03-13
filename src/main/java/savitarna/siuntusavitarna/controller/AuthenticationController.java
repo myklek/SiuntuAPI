@@ -1,5 +1,6 @@
 package savitarna.siuntusavitarna.controller;
 
+import org.springframework.web.bind.annotation.*;
 import savitarna.siuntusavitarna.dtos.LoginUserDto;
 import savitarna.siuntusavitarna.dtos.RegisterUserDto;
 import savitarna.siuntusavitarna.model.User;
@@ -8,11 +9,8 @@ import savitarna.siuntusavitarna.service.AuthenticationService;
 import savitarna.siuntusavitarna.service.JwtService;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
+@CrossOrigin
 @RequestMapping("/auth")
 @RestController
 public class AuthenticationController {

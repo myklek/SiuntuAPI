@@ -2,6 +2,7 @@ package savitarna.siuntusavitarna.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -33,6 +34,8 @@ public class SecurityConfiguration {
         http.csrf()
                 .disable()
                 .authorizeHttpRequests()
+                .requestMatchers(HttpMethod.OPTIONS,"/**")
+                .permitAll()
                 .requestMatchers("/auth/**")
                 .permitAll()
                 .anyRequest()
@@ -52,8 +55,8 @@ public class SecurityConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(List.of("*"));
-        configuration.setAllowedMethods(List.of("GET","POST"));
-        configuration.setAllowedHeaders(List.of("Authorization","Content-Type"));
+        configuration.setAllowedMethods(List.of("GET,PUT,PATCH,POST,DELETE"));
+        configuration.setAllowedHeaders(List.of("Authorization","Content-Type","Origin","Accept","X-Requested-With"));
 
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

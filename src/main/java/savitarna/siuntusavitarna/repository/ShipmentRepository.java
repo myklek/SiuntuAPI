@@ -12,4 +12,5 @@ public interface ShipmentRepository extends JpaRepository<Shipment, Integer>
 {
     List<Shipment> findAllByUserId(int userId);
 
+
 }

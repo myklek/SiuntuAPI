@@ -44,16 +44,33 @@ public class ShipmentsService
     }
 
 
-
-    public List<Shipment> findShipmentsByUserId(Integer shipmentId)
+    public Shipment createShipment(Shipment shipment)
     {
-        List<Shipment> shipments = shipmentRepository.findAllByUserId(shipmentId);
+        System.out.println("CREATE IN SERVICE");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+
+        User user = userRepository.findByEmail(currentPrincipalName)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        shipment.setUser(user);
+
+        return shipmentRepository.save(shipment);
+    }
+
+
+    public List<Shipment> findShipmentsByUserId()
+    {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
 
         User user = userRepository.findByEmail(currentPrincipalName)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        List<Shipment> shipments = shipmentRepository.findAllByUserId(user.getId());
+
 
         for (Shipment shipment : shipments)
         {

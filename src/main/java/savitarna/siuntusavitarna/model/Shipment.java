@@ -30,8 +30,32 @@ public class Shipment
     @Column
     private String recieverCity;
 
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private ShipmentType shipmentType;
+
+    //enum column packageSize with values: "S, M, L"
+    @Column
+    @Enumerated(EnumType.STRING)
+    private PackageSize packageSize;
+
     public Shipment()
     {
         super();
     }
+
+
+    public enum ShipmentType
+    {
+        SELF_SERVICE,
+        SELF_PACK
+    }
+    public enum PackageSize
+    {
+        S,
+        M,
+        L
+    }
+
 }

@@ -17,15 +17,20 @@ public class ShipmentController
     private ShipmentsService shipmentsService;
 
     //write getShipmentsByUserId method with url parameter id for user id
-    @RequestMapping("/shipments/{user_id}")
-    public @ResponseBody List<Shipment> getShipments(@PathVariable(value="user_id") String id)
+    @RequestMapping("/shipments")
+    public @ResponseBody List<Shipment> getShipments()
     {
-        System.out.println("get Shipments");
-        List<Shipment> shipments = shipmentsService.findShipmentsByUserId(Integer.parseInt(id));
-        for (Shipment shipment : shipments)
-        {
-            System.out.println(shipment.getRecieverCity()) ;
-        }
-        return shipmentsService.findShipmentsByUserId(Integer.parseInt(id));
+        return shipmentsService.findShipmentsByUserId();
     }
+
+    //create a new shipment
+    @PostMapping("/shipments/new")
+    public ResponseEntity<Shipment> createShipment(@RequestBody Shipment shipment)
+    {
+        System.out.println(shipment.toString());
+        return ResponseEntity.ok(shipmentsService.createShipment(shipment));
+    }
+
+
+
 }

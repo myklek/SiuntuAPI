@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import savitarna.siuntusavitarna.model.Shipment;
+import savitarna.siuntusavitarna.model.Status;
 import savitarna.siuntusavitarna.repository.ShipmentRepository;
 
 import java.util.List;
@@ -19,17 +20,6 @@ import savitarna.siuntusavitarna.repository.ShipmentRepository;
 import savitarna.siuntusavitarna.repository.UserRepository;
 
 import java.util.Optional;
-
-//@Service
-//public class ShipmentsService
-//{
-//
-//    @Autowired
-//    private ShipmentRepository shipmentRepository;
-//    public List<Shipment> findShipmentsByUserId(int id){
-//        return shipmentRepository.findAllByUserId(id);
-//    }
-//}
 
 @Service
 public class ShipmentsService
@@ -54,6 +44,11 @@ public class ShipmentsService
         User user = userRepository.findByEmail(currentPrincipalName)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
+        Status status = new Status();
+        status.setName(Status.StatusType.LABEL_CREATED);
+        status.setShipment(shipment);
+
+        shipment.setShipmentStatuses(List.of(status));
         shipment.setUser(user);
 
         return shipmentRepository.save(shipment);

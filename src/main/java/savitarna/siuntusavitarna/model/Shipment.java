@@ -3,6 +3,11 @@ package savitarna.siuntusavitarna.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
@@ -18,6 +23,13 @@ public class Shipment
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "service_kiosk_id")
+    private ServiceKiosk serviceKiosk;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shipment")
+    private List<Status> shipmentStatuses;
+
     @Column
     private String senderName;
 
@@ -30,12 +42,18 @@ public class Shipment
     @Column
     private String recieverCity;
 
+    @CreationTimestamp
+    @Column(updatable = false, name = "created_at")
+    private Date createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private Date updatedAt;
 
     @Column
     @Enumerated(EnumType.STRING)
     private ShipmentType shipmentType;
 
-    //enum column packageSize with values: "S, M, L"
     @Column
     @Enumerated(EnumType.STRING)
     private PackageSize packageSize;
@@ -44,7 +62,6 @@ public class Shipment
     {
         super();
     }
-
 
     public enum ShipmentType
     {

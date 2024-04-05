@@ -1,6 +1,7 @@
 package savitarna.siuntusavitarna.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonValue;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,11 +44,22 @@ public class Status
     //Status enum
     public enum StatusType
     {
-        LABEL_CREATED,
-        COLLECTED,
-        IN_DELIVERY,
-        DELIVERED,
-        CANCELLED
+
+        LABEL_CREATED("Lipdukas sukurtas"),
+        COLLECTED("Siunta paimta"),
+        IN_DELIVERY("Siunta pristatoma"),
+        DELIVERED("Siunta pristatyta"),
+        CANCELLED("Siunta atšaukta");
+
+        private final String prettyName;
+        StatusType(String prettyName)
+        {
+            this.prettyName = prettyName;
+        }
+        @JsonValue
+        public String getLabel() {
+            return this.prettyName;
+        }
     }
 
     public Status(StatusType name)

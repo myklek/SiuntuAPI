@@ -6,6 +6,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import savitarna.siuntusavitarna.dtos.RegisterUserDto;
+import savitarna.siuntusavitarna.model.Role;
+import savitarna.siuntusavitarna.repository.RoleRepository;
 import savitarna.siuntusavitarna.repository.UserRepository;
 import savitarna.siuntusavitarna.dtos.LoginUserDto;
 import savitarna.siuntusavitarna.model.User;
@@ -16,16 +18,19 @@ import java.util.List;
 @Service
 public class AuthenticationService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationService(
             UserRepository userRepository,
+            RoleRepository roleRepository,
             AuthenticationManager authenticationManager,
             PasswordEncoder passwordEncoder
     ) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -34,6 +39,7 @@ public class AuthenticationService {
         user.setFullName(input.getFullName());
         user.setEmail(input.getEmail());
         user.setPassword(passwordEncoder.encode(input.getPassword()));
+        user.setRole(roleRepository.findByName(Role.RoleType.USER));
 
         return userRepository.save(user);
     }

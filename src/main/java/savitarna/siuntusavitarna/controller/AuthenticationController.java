@@ -1,5 +1,6 @@
 package savitarna.siuntusavitarna.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import savitarna.siuntusavitarna.dtos.LoginUserDto;
 import savitarna.siuntusavitarna.dtos.RegisterUserDto;
@@ -29,6 +30,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(registeredUser);
     }
 
+//    @PreAuthorize("hasRole('USER')")
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginUserDto loginUserDto) {
         User authenticatedUser = authenticationService.authenticate(loginUserDto);

@@ -31,6 +31,9 @@ public class Shipment
     private List<Status> shipmentStatuses;
 
     @Column
+    private boolean isCollected;
+
+    @Column
     private String senderName;
 
     @Column

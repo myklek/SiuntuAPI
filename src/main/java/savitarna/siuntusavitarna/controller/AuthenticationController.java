@@ -33,6 +33,7 @@ public class AuthenticationController {
 //    @PreAuthorize("hasRole('USER')")
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginUserDto loginUserDto) {
+        System.out.println("login 1");
         User authenticatedUser = authenticationService.authenticate(loginUserDto);
 
         String jwtToken = jwtService.generateToken(authenticatedUser);

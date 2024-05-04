@@ -4,9 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import savitarna.siuntusavitarna.model.Shipment;
+import savitarna.siuntusavitarna.model.Package;
+import savitarna.siuntusavitarna.service.PackageService;
 import savitarna.siuntusavitarna.service.ShipmentsService;
 
 import java.util.List;
@@ -21,9 +22,13 @@ public class ShipmentController
     @Autowired
     private ShipmentsService shipmentsService;
 
+    @Autowired
+    private PackageService packageService;
+
+
     //write getShipmentsByUserId method with url parameter id for user id
     @PreAuthorize("hasRole('USER')")
-    @RequestMapping("/shipments")
+    @RequestMapping("/shipment/all")
     public @ResponseBody List<Shipment> getShipments()
     {
         return shipmentsService.findShipmentsByUserId();
@@ -31,15 +36,20 @@ public class ShipmentController
 
     //create a new shipment
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/shipments/new")
-    public ResponseEntity<Shipment> createShipment(@RequestBody Shipment shipment)
+    @PostMapping("/shipment/new")
+    public ResponseEntity<Boolean> createShipment(@RequestBody Shipment shipment)
     {
-        return ResponseEntity.ok(shipmentsService.createShipment(shipment));
+        Shipment createdShipment = shipmentsService.createShipment(shipment);
+        if(createdShipment == null)
+        {
+            throw new AccessDeniedException("Shipment not created");
+        }
+        return ResponseEntity.ok(true);
     }
 
     //get shipment by id
     @PreAuthorize("hasRole('SERVICE_KIOSK')")
-    @GetMapping("/shipments/{id}")
+    @GetMapping("/shipment/{id}")
     public ResponseEntity<Shipment> getShipmentById(@PathVariable int id)
     {
         Shipment shipment = shipmentsService.findShipmentById(id);
@@ -52,17 +62,27 @@ public class ShipmentController
 
     //update shipment by id
     @PreAuthorize("hasRole('SERVICE_KIOSK')")
-    @PatchMapping("/shipments/{id}")
-    public ResponseEntity<Boolean> updateShipment(@PathVariable int id, @RequestBody Map<String, String> shipment)
+    @PatchMapping("/shipment/update")
+    public ResponseEntity<Boolean> updateShipment(@RequestBody Shipment shipment)
     {
         System.out.println(shipment);
-        Shipment updatedShipment = shipmentsService.updateShipment(id, shipment);
+        Shipment updatedShipment = shipmentsService.updateShipment(shipment);
         if (updatedShipment == null)
         {
             throw new AccessDeniedException("Shipment not found");
         }
         return ResponseEntity.ok(true);
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/shipment/packages")
+    public @ResponseBody List<Package> getAllPackages()
+    {
+        return packageService.findAll();
+    }
+
+
+
 
 
 

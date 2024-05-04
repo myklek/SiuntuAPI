@@ -36,7 +36,6 @@ public class AuthenticationService {
 
     public User signup(RegisterUserDto input) {
         User user = new User();
-//        user.setFullName(input.getFullName());
         user.setEmail(input.getEmail());
         user.setPassword(passwordEncoder.encode(input.getPassword()));
         user.setRole(roleRepository.findByName(Role.RoleType.USER));
@@ -55,11 +54,4 @@ public class AuthenticationService {
         return userRepository.findByEmail(input.getEmail()).orElseThrow();
     }
 
-    public List<User> allUsers() {
-        List<User> users = new ArrayList<>();
-
-        userRepository.findAll().forEach(users::add);
-
-        return users;
-    }
 }

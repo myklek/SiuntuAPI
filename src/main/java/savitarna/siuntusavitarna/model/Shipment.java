@@ -1,5 +1,8 @@
 package savitarna.siuntusavitarna.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,10 +22,12 @@ public class Shipment
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "service_kiosk_id")
     private ServiceKiosk serviceKiosk;
@@ -45,10 +50,12 @@ public class Shipment
     @Column
     private String recieverCity;
 
+    @JsonIgnore
     @CreationTimestamp
     @Column(updatable = false, name = "created_at")
     private Date createdAt;
 
+    @JsonIgnore
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Date updatedAt;
@@ -57,9 +64,10 @@ public class Shipment
     @Enumerated(EnumType.STRING)
     private ShipmentType shipmentType;
 
-    @Column
-    @Enumerated(EnumType.STRING)
-    private PackageSize packageSize;
+    @ManyToOne
+    @JoinColumn(name = "package_id")
+    @JsonProperty("package")
+    private Package aPackage;
 
     public Shipment()
     {
@@ -71,11 +79,6 @@ public class Shipment
         SELF_SERVICE,
         SELF_PACK
     }
-    public enum PackageSize
-    {
-        S,
-        M,
-        L
-    }
+
 
 }

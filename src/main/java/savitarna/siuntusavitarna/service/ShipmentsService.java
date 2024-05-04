@@ -4,6 +4,8 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import savitarna.siuntusavitarna.model.*;
+import savitarna.siuntusavitarna.model.Package;
+import savitarna.siuntusavitarna.repository.PackageRepository;
 import savitarna.siuntusavitarna.repository.ServiceKioskRepository;
 import savitarna.siuntusavitarna.repository.ShipmentRepository;
 
@@ -13,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import savitarna.siuntusavitarna.model.Shipment;
 import savitarna.siuntusavitarna.repository.UserRepository;
+import savitarna.siuntusavitarna.projection.ShipmentProjection;
 
 import java.util.Map;
 
@@ -20,16 +23,19 @@ import java.util.Map;
 public class ShipmentsService
 {
     private final ShipmentRepository shipmentRepository;
+
+    private final PackageRepository packageRepository;
     private final UserRepository userRepository;
 
     private final ServiceKioskRepository serviceKioskRepository;
 
 
-    public ShipmentsService(ShipmentRepository shipmentRepository, UserRepository userRepository, ServiceKioskRepository serviceKioskRepository)
+    public ShipmentsService(ShipmentRepository shipmentRepository, UserRepository userRepository, ServiceKioskRepository serviceKioskRepository, PackageRepository packageRepository)
     {
         this.shipmentRepository = shipmentRepository;
         this.userRepository = userRepository;
         this.serviceKioskRepository = serviceKioskRepository;
+        this.packageRepository = packageRepository;
     }
 
 
@@ -46,6 +52,11 @@ public class ShipmentsService
         Status status = new Status();
         status.setName(Status.StatusType.LABEL_CREATED);
         status.setShipment(shipment);
+
+        if (shipment.getShipmentType() == Shipment.ShipmentType.SELF_PACK)
+        {
+            shipment.setCollected(true);
+        }
 
         shipment.setShipmentStatuses(List.of(status));
         shipment.setUser(user);
@@ -82,35 +93,47 @@ public class ShipmentsService
         return shipmentRepository.findByIdAndIsCollectedFalse(id);
     }
 
-    public Shipment updateShipment(int id, Map<String, String> shipment)
+    public Shipment updateShipment(Shipment shipment)
     {
-        Shipment existingShipment = shipmentRepository.findById(id);
+        Shipment existingShipment = shipmentRepository.findById(shipment.getId());
 
-        System.out.println(shipment);
+//        System.out.println(existingShipment.toString());
+//        System.out.println(existingShipment.getAPackage().toString());
         if (existingShipment == null)
         {
             return null;
         }
 
-        // Fetch the ServiceKiosk object using the provided ID
-        ServiceKiosk serviceKiosk = serviceKioskRepository.findById(Integer.parseInt(shipment.get("serviceKioskId")));
+        Package aPackage;
 
-        existingShipment.setPackageSize(Shipment.PackageSize.valueOf(shipment.get("packageSize")));
+        if(shipment.getAPackage().getId() == 0)
+        {
+            System.out.println("create new package");
+            aPackage = new Package();
 
-//add new status CANCELLED
-//        if (shipment.get("status").equals("CANCELLED"))
-//        {
+
+            aPackage.setHeight(shipment.getAPackage().getHeight());
+            aPackage.setLength(shipment.getAPackage().getLength());
+            aPackage.setWidth(shipment.getAPackage().getWidth());
+            aPackage.setCustom(true);
+            packageRepository.save(aPackage);
+        }
+        else {
+            System.out.println("use existing package");
+            aPackage = packageRepository.findById(shipment.getAPackage().getId());
+        }
+
+
+
+
+
+
         Status status = new Status();
-        status.setName(Status.StatusType.CANCELLED);
+        status.setName(Status.StatusType.COLLECTED);
         status.setShipment(existingShipment);
+        existingShipment.setAPackage(aPackage);
         existingShipment.getShipmentStatuses().add(status);
-//        }
-
-        System.out.println(existingShipment.getShipmentStatuses());
-
-        // Set the fetched ServiceKiosk object to the existingShipment
-        existingShipment.setServiceKiosk(serviceKiosk);
-
+        existingShipment.setCollected(true);
         return shipmentRepository.save(existingShipment);
     }
 }

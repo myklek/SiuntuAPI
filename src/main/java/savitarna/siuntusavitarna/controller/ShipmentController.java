@@ -47,6 +47,36 @@ public class ShipmentController
         return ResponseEntity.ok(true);
     }
 
+
+
+    //create a new shipment
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/shipment/newcustompackage")
+    public ResponseEntity<Integer> createShipmentWithCustomPackage(@RequestBody Shipment shipment)
+    {
+        Shipment createdShipment = shipmentsService.createShipmentWithCustomPackage(shipment);
+        System.out.println(createdShipment.toString());
+        if(createdShipment == null)
+        {
+            throw new AccessDeniedException("Shipment not created");
+        }
+        return ResponseEntity.ok(createdShipment.getId());
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/shipment/newstandardpackage")
+    public ResponseEntity<Integer> createShipmentWithStandardPackage(@RequestBody Shipment shipment)
+    {
+        Shipment createdShipment = shipmentsService.createShipment(shipment);
+        System.out.println(createdShipment.toString());
+        if(createdShipment == null)
+        {
+            throw new AccessDeniedException("Shipment not created");
+        }
+        System.out.println(createdShipment.getId());
+        return ResponseEntity.ok(createdShipment.getId());
+    }
+
     //get shipment by id
     @PreAuthorize("hasRole('SERVICE_KIOSK')")
     @GetMapping("/shipment/{id}")

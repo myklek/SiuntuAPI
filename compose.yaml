@@ -1,3 +1,5 @@
+name: siuntu-savitarna-irenginys
+
 services:
   mysqldb:
     container_name: mysqldb
@@ -6,17 +8,17 @@ services:
       - appdata:/var/lib/mysql
     environment:
       MYSQL_DATABASE: siuntudb
-      MYSQL_ROOT_USER: root
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_PORT: 3306
     networks:
       - app-network
     restart: always
     ports:
       - 3306:3306
-    expose:
-      - 3306
   flutter-web:
+    container_name: flutter-web
     build:
       context: C:\Users\Mykol\IdeaProjects\siuntu_web_app
       dockerfile: Dockerfile
@@ -25,6 +27,8 @@ services:
     networks:
       - app-network
   siuntu-savitarna:
+    restart: always
+    container_name: rest-api
     build:
       context: C:\Users\Mykol\IdeaProjects\SiuntuSavitarna
       dockerfile: Dockerfile
@@ -34,8 +38,9 @@ services:
       - app-network
     depends_on:
         - mysqldb
-    expose:
-      - 8080
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 volumes:
   appdata:
 

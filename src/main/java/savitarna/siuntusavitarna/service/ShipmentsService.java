@@ -53,6 +53,61 @@ public class ShipmentsService
         status.setName(Status.StatusType.LABEL_CREATED);
         status.setShipment(shipment);
 
+//        if (shipment.getShipmentType() == Shipment.ShipmentType.SELF_PACK)
+//        {
+//            shipment.setCollected(true);
+//        }
+
+        shipment.setShipmentStatuses(List.of(status));
+        shipment.setUser(user);
+
+        return shipmentRepository.save(shipment);
+    }
+
+    public Shipment createShipmentWithCustomPackage(Shipment shipment)
+    {
+        System.out.println("CREATE IN SERVICE CUSTOM PACKAGE");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        User user = userRepository.findByEmail(currentPrincipalName)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        Status status = new Status();
+        status.setName(Status.StatusType.LABEL_CREATED);
+        status.setShipment(shipment);
+
+        Package aPackage = new Package();
+        aPackage.setHeight(shipment.getAPackage().getHeight());
+        aPackage.setLength(shipment.getAPackage().getLength());
+        aPackage.setWidth(shipment.getAPackage().getWidth());
+        aPackage.setCustom(true);
+
+        packageRepository.save(aPackage);
+
+        shipment.setCollected(true);
+        shipment.setShipmentType(Shipment.ShipmentType.SELF_SERVICE);
+        shipment.setShipmentStatuses(List.of(status));
+        shipment.setUser(user);
+        shipment.setAPackage(aPackage);
+
+        return shipmentRepository.save(shipment);
+    }
+
+    public Shipment createShipmentWithStandardPackage(Shipment shipment)
+    {
+        System.out.println("CREATE IN SERVICE");
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+
+        User user = userRepository.findByEmail(currentPrincipalName)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        Status status = new Status();
+        status.setName(Status.StatusType.LABEL_CREATED);
+        status.setShipment(shipment);
+
         if (shipment.getShipmentType() == Shipment.ShipmentType.SELF_PACK)
         {
             shipment.setCollected(true);

@@ -42,13 +42,20 @@ public class Shipment
     private String senderName;
 
     @Column
-    private String senderCity;
+    private String senderAddress;
+
+    @Column
+    String senderPhoneNumber;
 
     @Column
     private String recieverName;
 
     @Column
-    private String recieverCity;
+    private String recieverAddress;
+
+    @Column
+    String recieverPhoneNumber;
+
 
     @JsonIgnore
     @CreationTimestamp

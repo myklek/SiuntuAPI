@@ -24,13 +24,18 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
-        User registeredUser = authenticationService.signup(registerUserDto);
-
-        return ResponseEntity.ok(registeredUser);
+    public ResponseEntity<Boolean> register(@RequestBody RegisterUserDto registerUserDto) {
+        try
+        {
+            authenticationService.signup(registerUserDto);
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.badRequest().body(false);
+        }
+        return ResponseEntity.ok(true);
     }
 
-//    @PreAuthorize("hasRole('USER')")
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginUserDto loginUserDto) {
         System.out.println("login 1");

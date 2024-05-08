@@ -45,8 +45,8 @@ public class Status
     public enum StatusType
     {
 
-        LABEL_CREATED("Lipdukas sukurtas"),
-        COLLECTED("Siunta paimta"),
+        LABEL_CREATED("Siunta sukurta"),
+        COLLECTED("Siunta primta išsiutimui"),
         IN_DELIVERY("Siunta pristatoma"),
         DELIVERED("Siunta pristatyta"),
         CANCELLED("Siunta atšaukta");

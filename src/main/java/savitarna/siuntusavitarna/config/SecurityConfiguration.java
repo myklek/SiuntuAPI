@@ -33,8 +33,7 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors().and() // Enable CORS and CSRF
-                .csrf()
+        http.csrf()
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.OPTIONS,"/**")
@@ -57,11 +56,10 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOriginPatterns(List.of("*"));
-        configuration.setAllowCredentials(true);
+        configuration.setAllowedOrigins(List.of("*"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization","Content-Type","Origin","Accept","Authorization","X-Requested-With","Access-Control-Request-Method","Access-Control-Request-Headers","Access-Control-Allow-Origin"));
-        configuration.setExposedHeaders(List.of("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")); // Add this line
+        configuration.setAllowedHeaders(List.of("Authorization","Content-Type","Origin","Accept","X-Requested-With"));
+
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 

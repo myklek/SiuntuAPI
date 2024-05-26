@@ -2,7 +2,6 @@ name: siuntu-savitarna-irenginys
 
 services:
   mysqldb:
-    container_name: mysqldb
     image: mysql
     volumes:
       - appdata:/var/lib/mysql
@@ -22,13 +21,15 @@ services:
     build:
       context: C:\Users\Mykol\IdeaProjects\siuntu_web_app
       dockerfile: Dockerfile
+      args:
+        - SERVER_IP=${SERVER_IP}
     ports:
       - 8081:80
     networks:
       - app-network
-  siuntu-savitarna:
-    restart: always
+  rest-api:
     container_name: rest-api
+    restart: always
     build:
       context: C:\Users\Mykol\IdeaProjects\SiuntuSavitarna
       dockerfile: Dockerfile

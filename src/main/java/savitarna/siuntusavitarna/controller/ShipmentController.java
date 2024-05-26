@@ -25,8 +25,6 @@ public class ShipmentController
     @Autowired
     private PackageService packageService;
 
-
-    //write getShipmentsByUserId method with url parameter id for user id
     @PreAuthorize("hasRole('USER')")
     @RequestMapping("/shipment/all")
     public @ResponseBody List<Shipment> getShipments()
@@ -34,7 +32,6 @@ public class ShipmentController
         return shipmentsService.findShipmentsByUserId();
     }
 
-    //create a new shipment
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/shipment/new")
     public ResponseEntity<Boolean> createShipment(@RequestBody Shipment shipment)
@@ -47,15 +44,11 @@ public class ShipmentController
         return ResponseEntity.ok(true);
     }
 
-
-
-    //create a new shipment
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/shipment/newcustompackage")
     public ResponseEntity<Integer> createShipmentWithCustomPackage(@RequestBody Shipment shipment)
     {
         Shipment createdShipment = shipmentsService.createShipmentWithCustomPackage(shipment);
-        System.out.println(createdShipment.toString());
         if(createdShipment == null)
         {
             throw new AccessDeniedException("Shipment not created");
@@ -68,16 +61,13 @@ public class ShipmentController
     public ResponseEntity<Integer> createShipmentWithStandardPackage(@RequestBody Shipment shipment)
     {
         Shipment createdShipment = shipmentsService.createShipment(shipment);
-        System.out.println(createdShipment.toString());
         if(createdShipment == null)
         {
             throw new AccessDeniedException("Shipment not created");
         }
-        System.out.println(createdShipment.getId());
         return ResponseEntity.ok(createdShipment.getId());
     }
 
-    //get shipment by id
     @PreAuthorize("hasRole('SERVICE_KIOSK')")
     @GetMapping("/shipment/{id}")
     public ResponseEntity<Shipment> getShipmentById(@PathVariable int id)
@@ -90,12 +80,10 @@ public class ShipmentController
         return ResponseEntity.ok(shipment);
     }
 
-    //update shipment by id
     @PreAuthorize("hasRole('SERVICE_KIOSK')")
     @PatchMapping("/shipment/update")
     public ResponseEntity<Boolean> updateShipment(@RequestBody Shipment shipment)
     {
-        System.out.println(shipment);
         Shipment updatedShipment = shipmentsService.updateShipment(shipment);
         if (updatedShipment == null)
         {

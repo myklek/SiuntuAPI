@@ -21,12 +21,4 @@ public class LoginUserDto {
         this.password = password;
         return this;
     }
-
-    @Override
-    public String toString() {
-        return "LoginUserDto{" +
-                "email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
 }

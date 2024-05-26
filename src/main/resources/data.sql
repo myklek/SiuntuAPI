@@ -1,6 +1,6 @@
-INSERT INTO siuntudb.roles (name)
-VALUES ('USER');
+INSERT IGNORE INTO siuntudb.roles (id,name)
+VALUES ('1','USER');
 
-INSERT INTO siuntudb.roles (name)
-VALUES ('SERVICE_KIOSK');
+INSERT IGNORE INTO siuntudb.roles (id,name)
+VALUES ('2','SERVICE_KIOSK');
 

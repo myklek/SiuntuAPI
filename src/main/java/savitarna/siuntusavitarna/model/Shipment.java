@@ -1,6 +1,5 @@
 package savitarna.siuntusavitarna.model;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -26,11 +25,6 @@ public class Shipment
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "service_kiosk_id")
-    private ServiceKiosk serviceKiosk;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shipment")
     private List<Status> shipmentStatuses;

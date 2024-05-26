@@ -1,6 +1,5 @@
 package savitarna.siuntusavitarna.service;
 
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,8 +11,6 @@ import savitarna.siuntusavitarna.repository.UserRepository;
 import savitarna.siuntusavitarna.dtos.LoginUserDto;
 import savitarna.siuntusavitarna.model.User;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class AuthenticationService {
@@ -39,6 +36,14 @@ public class AuthenticationService {
         user.setEmail(input.getEmail());
         user.setPassword(passwordEncoder.encode(input.getPassword()));
         user.setRole(roleRepository.findByName(Role.RoleType.USER));
+
+        return userRepository.save(user);
+    }
+    public User createKioskUser(RegisterUserDto input) {
+        User user = new User();
+        user.setEmail(input.getEmail());
+        user.setPassword(passwordEncoder.encode(input.getPassword()));
+        user.setRole(roleRepository.findByName(Role.RoleType.SERVICE_KIOSK));
 
         return userRepository.save(user);
     }

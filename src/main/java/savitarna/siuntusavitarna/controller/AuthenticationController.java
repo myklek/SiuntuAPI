@@ -36,9 +36,21 @@ public class AuthenticationController {
         return ResponseEntity.ok(true);
     }
 
+    @PostMapping("/createKioskUser")
+    public ResponseEntity<Boolean> createKioskUser(@RequestBody RegisterUserDto registerUserDto) {
+        try
+        {
+            authenticationService.createKioskUser(registerUserDto);
+        }
+        catch (Exception e)
+        {
+            return ResponseEntity.badRequest().body(false);
+        }
+        return ResponseEntity.ok(true);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginUserDto loginUserDto) {
-        System.out.println("login 1");
         User authenticatedUser = authenticationService.authenticate(loginUserDto);
 
         String jwtToken = jwtService.generateToken(authenticatedUser);

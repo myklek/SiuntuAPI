@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>savitarna</groupId>
-    <artifactId>SiuntuSavitarna</artifactId>
+    <artifactId>spring-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>SiuntuSavitarna</name>
     <description>SiuntuSavitarna</description>

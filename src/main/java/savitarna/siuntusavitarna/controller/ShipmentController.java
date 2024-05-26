@@ -5,13 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import savitarna.siuntusavitarna.model.Shipment;
 import savitarna.siuntusavitarna.model.Package;
+import savitarna.siuntusavitarna.model.Shipment;
 import savitarna.siuntusavitarna.service.PackageService;
 import savitarna.siuntusavitarna.service.ShipmentsService;
 
 import java.util.List;
-import java.util.Map;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -37,7 +36,7 @@ public class ShipmentController
     public ResponseEntity<Boolean> createShipment(@RequestBody Shipment shipment)
     {
         Shipment createdShipment = shipmentsService.createShipment(shipment);
-        if(createdShipment == null)
+        if (createdShipment == null)
         {
             throw new AccessDeniedException("Shipment not created");
         }
@@ -49,7 +48,7 @@ public class ShipmentController
     public ResponseEntity<Integer> createShipmentWithCustomPackage(@RequestBody Shipment shipment)
     {
         Shipment createdShipment = shipmentsService.createShipmentWithCustomPackage(shipment);
-        if(createdShipment == null)
+        if (createdShipment == null)
         {
             throw new AccessDeniedException("Shipment not created");
         }
@@ -61,7 +60,7 @@ public class ShipmentController
     public ResponseEntity<Integer> createShipmentWithStandardPackage(@RequestBody Shipment shipment)
     {
         Shipment createdShipment = shipmentsService.createShipment(shipment);
-        if(createdShipment == null)
+        if (createdShipment == null)
         {
             throw new AccessDeniedException("Shipment not created");
         }
@@ -98,11 +97,6 @@ public class ShipmentController
     {
         return packageService.findAll();
     }
-
-
-
-
-
 
 
 }

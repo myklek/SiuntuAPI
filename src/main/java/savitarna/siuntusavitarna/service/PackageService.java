@@ -1,8 +1,8 @@
 package savitarna.siuntusavitarna.service;
 
 import org.springframework.stereotype.Service;
-import savitarna.siuntusavitarna.repository.PackageRepository;
 import savitarna.siuntusavitarna.model.Package;
+import savitarna.siuntusavitarna.repository.PackageRepository;
 
 import java.util.List;
 

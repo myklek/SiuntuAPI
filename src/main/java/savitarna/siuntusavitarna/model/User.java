@@ -18,14 +18,12 @@ import java.util.List;
 @Setter
 @Table(name = "users")
 @Entity
-public class User implements UserDetails {
+public class User implements UserDetails
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Integer id;
-
-//    @Column(nullable = false)
-//    private String fullName;
 
     @Column(unique = true, length = 100, nullable = false)
     private String email;
@@ -51,46 +49,52 @@ public class User implements UserDetails {
 
     @JsonIgnore
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<? extends GrantedAuthority> getAuthorities()
+    {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role.getName());
         return List.of(authority);
     }
 
     @JsonIgnore
     @Override
-    public String getUsername() {
+    public String getUsername()
+    {
         return email;
     }
 
     @JsonIgnore
     @Override
-    public boolean isAccountNonExpired() {
+    public boolean isAccountNonExpired()
+    {
         return true;
     }
 
     @JsonIgnore
     @Override
-    public boolean isAccountNonLocked() {
+    public boolean isAccountNonLocked()
+    {
         return true;
     }
 
     @JsonIgnore
     @Override
-    public boolean isCredentialsNonExpired() {
+    public boolean isCredentialsNonExpired()
+    {
         return true;
     }
 
     @JsonIgnore
     @Override
-    public boolean isEnabled() {
+    public boolean isEnabled()
+    {
         return true;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "User{" +
                 "id=" + id +
-//                ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", createdAt=" + createdAt +

@@ -1,19 +1,19 @@
 package savitarna.siuntusavitarna.service;
 
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
-import savitarna.siuntusavitarna.model.*;
-import savitarna.siuntusavitarna.model.Package;
-import savitarna.siuntusavitarna.repository.PackageRepository;
-import savitarna.siuntusavitarna.repository.ShipmentRepository;
-
-import java.util.List;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import savitarna.siuntusavitarna.model.Package;
 import savitarna.siuntusavitarna.model.Shipment;
+import savitarna.siuntusavitarna.model.Status;
+import savitarna.siuntusavitarna.model.User;
+import savitarna.siuntusavitarna.repository.PackageRepository;
+import savitarna.siuntusavitarna.repository.ShipmentRepository;
 import savitarna.siuntusavitarna.repository.UserRepository;
+
+import java.util.List;
 
 @Service
 public class ShipmentsService
@@ -22,8 +22,6 @@ public class ShipmentsService
 
     private final PackageRepository packageRepository;
     private final UserRepository userRepository;
-
-
 
 
     public ShipmentsService(ShipmentRepository shipmentRepository, UserRepository userRepository, PackageRepository packageRepository)
@@ -146,7 +144,7 @@ public class ShipmentsService
 
         Package aPackage;
 
-        if(shipment.getAPackage().getId() == 0)
+        if (shipment.getAPackage().getId() == 0)
         {
             aPackage = new Package();
 
@@ -157,7 +155,8 @@ public class ShipmentsService
             aPackage.setCustom(true);
             packageRepository.save(aPackage);
         }
-        else {
+        else
+        {
             aPackage = packageRepository.findById(shipment.getAPackage().getId());
         }
 

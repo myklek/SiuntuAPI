@@ -40,8 +40,6 @@ public class Status
 
     }
 
-
-    //Status enum
     public enum StatusType
     {
 
@@ -52,12 +50,15 @@ public class Status
         CANCELLED("Siunta atšaukta");
 
         private final String prettyName;
+
         StatusType(String prettyName)
         {
             this.prettyName = prettyName;
         }
+
         @JsonValue
-        public String getLabel() {
+        public String getLabel()
+        {
             return this.prettyName;
         }
     }

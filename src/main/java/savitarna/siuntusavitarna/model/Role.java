@@ -1,7 +1,6 @@
 package savitarna.siuntusavitarna.model;
 
 import jakarta.persistence.*;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,9 +8,11 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Role {
+public class Role
+{
 
-    public Role() {
+    public Role()
+    {
     }
 
     @Id
@@ -22,9 +23,9 @@ public class Role {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private RoleType name;
-    // getters and setters
 
-    public enum RoleType {
+    public enum RoleType
+    {
         USER,
         SERVICE_KIOSK,
     }

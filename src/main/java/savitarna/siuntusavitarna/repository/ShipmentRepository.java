@@ -13,6 +13,7 @@ public interface ShipmentRepository extends CrudRepository<Shipment, Integer>
     List<Shipment> findAllByUserId(int userId);
 
     Shipment findById(int id);
+
     Shipment findByIdAndIsCollectedFalse(int id);
 
 

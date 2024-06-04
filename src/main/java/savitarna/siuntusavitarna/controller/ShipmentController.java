@@ -47,6 +47,7 @@ public class ShipmentController
     @PostMapping("/shipment/newcustompackage")
     public ResponseEntity<Integer> createShipmentWithCustomPackage(@RequestBody Shipment shipment)
     {
+        System.out.println("create shipment with custom package");
         Shipment createdShipment = shipmentsService.createShipmentWithCustomPackage(shipment);
         if (createdShipment == null)
         {

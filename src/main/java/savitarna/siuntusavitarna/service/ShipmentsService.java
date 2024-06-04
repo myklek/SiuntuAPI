@@ -135,7 +135,13 @@ public class ShipmentsService
 
     public Shipment updateShipment(Shipment shipment)
     {
+        System.out.println("update shipment");
+        System.out.println(shipment.toString());
+        System.out.println(shipment.getId());
         Shipment existingShipment = shipmentRepository.findById(shipment.getId());
+
+        System.out.println("existing shipment");
+        System.out.println(existingShipment.toString());
 
         if (existingShipment == null)
         {
@@ -146,8 +152,8 @@ public class ShipmentsService
 
         if (shipment.getAPackage().getId() == 0)
         {
+            System.out.println("new package");
             aPackage = new Package();
-
 
             aPackage.setHeight(shipment.getAPackage().getHeight());
             aPackage.setLength(shipment.getAPackage().getLength());
@@ -157,9 +163,11 @@ public class ShipmentsService
         }
         else
         {
+            System.out.println("existing package");
             aPackage = packageRepository.findById(shipment.getAPackage().getId());
         }
 
+        System.out.println("create shipment");
         Status status = new Status();
         status.setName(Status.StatusType.COLLECTED);
         status.setShipment(existingShipment);
